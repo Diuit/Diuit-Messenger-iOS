@@ -19,10 +19,52 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Root View Controller" id="hZy-cY-dUe"/>
+                    <connections>
+                        <segue destination="jFN-dv-6iD" kind="show" identifier="toMessengerSegue" id="0rK-20-pDF"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FX9-cj-2uh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-189" y="153"/>
+        </scene>
+        <!--Messenger View Controller-->
+        <scene sceneID="ihH-6V-Nkl">
+            <objects>
+                <viewController id="jFN-dv-6iD" customClass="DUMessengerViewController" customModule="DUMessenger" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="GyZ-mJ-EKc"/>
+                        <viewControllerLayoutGuide type="bottom" id="cAH-Bc-6MH"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="CQi-Jk-vYm">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <segue destination="IYT-3N-iGC" kind="show" identifier="toSettingSegue" id="Dq9-qM-iT4"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JSb-py-2LP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="601" y="153"/>
+        </scene>
+        <!--Chat List View Controller-->
+        <scene sceneID="JH5-6c-scN">
+            <objects>
+                <viewController id="IYT-3N-iGC" customClass="DUChatListViewController" customModule="DUMessenger" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="EiM-xe-Jg4"/>
+                        <viewControllerLayoutGuide type="bottom" id="Kzx-kf-Zzz"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="i85-V4-gZR">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KqP-JS-UJF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1301" y="146"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="BbP-mk-9Dh">

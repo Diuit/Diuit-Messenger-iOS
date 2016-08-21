@@ -7,7 +7,7 @@ PODS:
     - DTModelStorage (~> 2.6.0)
   - DUMessaging (1.1.8):
     - Socket.IO-Client-Swift (~> 6.1.0)
-  - DUMessagingUIKit (0.1.1):
+  - DUMessagingUIKit (0.1.2):
     - DTTableViewManager (~> 4.7.0)
     - DUMessaging (~> 1.1.8)
     - URLEmbeddedView (~> 0.4.0)
@@ -27,7 +27,7 @@ SPEC CHECKSUMS:
   DTModelStorage: afd736e5309f374c29dcd7e4364e7571e32e5db1
   DTTableViewManager: 4a961b5ffaa9a57387ccff7f9280d001c9c64082
   DUMessaging: 5b564b49f4d9d50e8bfb66adba54b6f554478fd0
-  DUMessagingUIKit: af81a6de1ec06d79ca30e505e634b70b6ef9d6e4
+  DUMessagingUIKit: 1065a51bc4a7e90249f9e6eb489829d3d249963e
   Kanna: 355ed0193e5d8caf4fd996856b5bc98d586c11b6
   MisterFusion: f979335323ddd5fb13c889e98ce34fe30489b8d7
   Socket.IO-Client-Swift: 5eddbfafd3c035a77d365d5b58da93cc488af11f

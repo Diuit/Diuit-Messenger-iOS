@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import DUMessaging
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,7 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        // 1. set up your app id and app key
+        DUMessaging.set(appId: "APP_ID", appKey: "APP_KEY")
         return true
     }
 

@@ -347,7 +347,7 @@ Jump to this [section](https://github.com/Diuit/Diuit-Messenger-iOS#communicatio
 ![targe](http://i.imgur.com/vhuz32j.png)
 
 * Build & run.
-* Now you can chat with yourself! Isn't thage great and easy?
+* Now you can chat with yourself by an app of your own! Isn't that easy and great?
 
 ![forever alone](http://i.imgur.com/Ujcmzkj.jpg)
 

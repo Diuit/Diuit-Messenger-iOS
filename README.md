@@ -1,4 +1,4 @@
-![Duit logo](http://api.diuit.com/images/logo.png)
+[![Duit logo](http://api.diuit.com/images/logo.png)](http://api.diuit.com/)
 
 # Integrate In-app Messaging with Diuit PART3: Work with DUMessagingUIKit
 

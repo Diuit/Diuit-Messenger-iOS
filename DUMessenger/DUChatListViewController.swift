@@ -12,42 +12,41 @@ import DUMessaging
 
 class DUChatListViewController: UITableViewController, DUChatListProtocolForViewController {
 
-    // MARK: followings are propeties and methods that you should implement
+    // MARK: Properties and methods required to be implemented
     var chatData: [DUChatData] = []
     
-    func didClickRightBarButton(sender: UIBarButtonItem?) {
+    func didClick(rightBarButton: UIBarButtonItem?) {
         // handle righbtBarButton click event
         print("Right bar button clicked")
     }
     
-    func didSelectCell(atIndexPath indexPath: NSIndexPath) {
-        // handle cell selection event
+    func didSelectCell(at indexPath: IndexPath) {
         selectedChat = chatData[indexPath.row]
-        
+        performSegue(withIdentifier: "toMessengerSegue", sender: nil)
     }
     
+    // MARK: Self properties
     var selectedChat: DUChatData? = nil
+    
     // MARK: life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        // adopt UI protocol
+        // Adopt UI protocol, this method must be called in `viewDidLoad`
         adoptProtocolUIApperance()
         
-        // retrieve chat list
-        DUMessaging.authWithSessionToken("SESSION_TOKEN") { error, result in
+        // Retrieve chat room list
+        DUMessaging.auth(withSessionToken: "SESSION_TOKEN") { error, result in
             guard error == nil else {
                 print("auth error:\(error!.localizedDescription)")
                 return
             }
             DUMessaging.listAllChatRooms() { [unowned self] error, chats in
-                guard let _:[DUChat] = chats where error == nil else {
+                guard let _:[DUChat] = chats , error == nil else {
                     print("list error:\(error!.localizedDescription)")
                     return
                 }
                 
-                // You must use .map to assign array, or you will get a runtime errro.
-                // For Swift still has to bridge to NSArray in runtime to deal with collection, and NSArray can not handle protocol type.
-                self.chatData = chats!.map({$0 as DUChatData})
+                self.chatData = chats!
                 
                 // Call this after you done retrieving data
                 self.endGettingChatData()
@@ -56,6 +55,12 @@ class DUChatListViewController: UITableViewController, DUChatListProtocolForView
         
     }
     
+    // You need to set a chat room data source for `DUMessengerViewController`
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? DUMessengerViewController {
+            vc.chat = selectedChat
+        }
+    }
 
 }
 

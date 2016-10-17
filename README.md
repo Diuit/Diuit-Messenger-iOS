@@ -8,7 +8,7 @@ This tutorial will guide you to integrate with our UIKit. You will have a real t
 
 ## Requirements
 
-* Xcode 7.3 (Swift 2.2)
+* Xcode 8 (Swift 3)
 * iOS 8.0 +
 * Two session tokens (name they FIRST_TOKEN and SECOND_TOKEN)
 * Web chatting page (optional) in this [section](https://camo.githubusercontent.com/ce5913e8e3a314c1f989b90116647e7d2facddf6/687474703a2f2f692e696d6775722e636f6d2f4f555a703468712e706e67)
@@ -18,6 +18,30 @@ If you have problem in getting last two things, please follow [last tutorial](ht
 
 
 ## Getting Started
+
+You can either clone this repo to start trial with only few setups or follow the tutorial in next section to create a new project step by step.
+
+If you choose to clone this repo, here's what you need to do after clone:
+
+1. run `pod install` in the project root folder.
+
+2. Replace `APP_ID` and `APP_KEY` in AppDelegate.swift (at line 20) with yours.
+
+   ```swift
+   DUMessaging.set(appId: "APP_ID", appKey: "APP_KEY")
+   ```
+
+3. Replace `SESSION_TOKEN`  in DUChatListViewController.swift (at line 38) with yours.
+
+   ```swift
+   DUMessaging.auth(withSessionToken: "SESSION_TOKEN") { error, result in
+   // ...
+   }
+   ```
+
+
+
+Otherwise, please follow the following tutorial to create your own instant message app.
 
 ### Preparation
 
@@ -35,8 +59,25 @@ If you have problem in getting last two things, please follow [last tutorial](ht
   platform :ios, '8.0'
   use_frameworks!
 
+  # Require test version of some dependcies, so define an override
+  def swift3_overrides
+    pod 'Kanna', git: 'https://github.com/tid-kijyun/Kanna.git', branch: 'swift3.0'
+    pod 'URLEmbeddedView', :git => 'https://github.com/marty-suzuki/URLEmbeddedView.git', :tag => '0.6.0'
+  end
+
   target 'DUMessenger' do
-      pod 'DUMessagingUIKit'
+    swift3_overrides
+    pod 'DUMessagingUIKit', :git => 'https://github.com/Diuit/DUMessagingUIKit-iOS', :tag => '0.2.0''
+  end
+
+  # Use Swift 3 in all pod targets
+
+  post_install do |installer|
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['SWIFT_VERSION'] = '3.0'
+      end
+    end
   end
   ```
 
@@ -51,9 +92,9 @@ If you have problem in getting last two things, please follow [last tutorial](ht
 * Set app id and app key in `AppDelegate.swift` (check [here](https://developer.diuit.com/dashboard) if you don't know you id and key)
 
   ```swift
-  func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
           // Set up your app id and app key
-          DUMessaging.set(appId: "YOUR_APP_ID", appKey: "YOUR_APP_KEY")
+          DUMessaging.set(appId: "APP_ID", appKey: "APP_KEY")
           return true
       }
   ```
@@ -82,7 +123,7 @@ If you have problem in getting last two things, please follow [last tutorial](ht
   var chatData: [DUChatData] = []
 
   // Action for new chat button
-  func didClickRightBarButton(sender: UIBarButtonItem?) {
+  func didClick(rightBarButton: UIBarButtonItem?) {
       print("Right bar button clicked")
   }
   ```
@@ -97,21 +138,17 @@ If you have problem in getting last two things, please follow [last tutorial](ht
       adoptProtocolUIApperance()
 
       // retrieve chat list
-      DUMessaging.authWithSessionToken("SESSION_TOKEN_1") { error, result in
+      DUMessaging.auth(withSessionToken: "SESSION_TOKEN_1") { error, result in
           guard error == nil else {
               print("auth error:\(error!.localizedDescription)")
               return
           }
           DUMessaging.listAllChatRooms() { [unowned self] error, chats in
-              guard let _:[DUChat] = chats where error == nil else {
+              guard let _:[DUChat] = chats, error == nil else {
                   print("list error:\(error!.localizedDescription)")
                   return
               }
-
-              // You must use .map to assign array, or you will get a runtime errro.
-              // For Swift still has to bridge to NSArray in runtime to deal with collection, and NSArray can not handle protocol type.
-              self.chatData = chats!.map({$0 as DUChatData})
-
+              self.chatData = chats!
               // Call this after you have done retrieving chat list data
               self.endGettingChatData()
           }
@@ -141,13 +178,13 @@ If you have problem in getting last two things, please follow [last tutorial](ht
   var selectedChat: DUChatData? = nil
 
   // Implement to handle cell selection event
-  func didSelectCell(atIndexPath indexPath: NSIndexPath) {
+  func didSelectCell(at indexPath: IndexPath) {
       selectedChat = chatData[indexPath.row]
-      self.performSegueWithIdentifier("toMessengerSegue", sender: nil)
+      performSegue(withIdentifier: "toMessengerSegue", sender: nil)
   }
 
   // You need to set a chat room data source for `DUMessengerViewController`
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
       if let vc = segue.destinationViewController as? DUMessengerViewController {
           vc.chat = selectedChat
       }
@@ -158,7 +195,7 @@ If you have problem in getting last two things, please follow [last tutorial](ht
 
 ### View & Send Messages
 
-This is the most important element in this UIKit. We provide many features in `DUMessagesViewController`, all you have to do is to inherit this class and override some must-implemented methods. For detail document, please check [here](http://cocoadocs.org/docsets/DUMessagingUIKit).
+This is the most important element in this UIKit. We provide many features in `DUMessagesViewController`, all you have to do is to inherit this class and override some must-implemented methods.
 
 * First, override some touching events. (If you miss some override, there is also  an assert function to remind you under Debug configuration)
 
@@ -184,6 +221,20 @@ This is the most important element in this UIKit. We provide many features in `D
       // We'll modify this later
       print(" click setting button")
   }
+
+  // Implement what to do when you press `send` button
+  override func didPress(sendButton button: UIButton, withText: String) {
+      if let du_chat = self.chat as? DUChat {
+          du_chat.sendText(withText, beforeSend: { [weak self] message in
+          	// Message is ready to be sent
+              self?.messageData.append(message)
+              self?.endSendingMessage()
+          }) { [weak self] error, message in
+          	// Message completed sending
+              self?.collectionView?.reloadData()
+          }
+      }
+  }
   ```
 
 * We need to specify message data source to display historical messages
@@ -193,14 +244,14 @@ This is the most important element in this UIKit. We provide many features in `D
   override func viewDidLoad() {
       super.viewDidLoad()
       // To show load ealier messages refresh control (pull-to-refresh) or not
-      self.enableRefreshControl = true
+      self.enableRefreshControl = false
       
       // Use Diuit API to list last 20 messages
       if let c = self.chat as? DUChat {
           c.listMessages() { [weak self] error, messages in
               for message: DUMessage in messages! {
               	// messageData is the data source of messages
-                  self?.messageData.insert(message, atIndex: 0)
+                  self?.messageData.insert(message, at: 0)
               }
               // You MUST call this when done receiving messages
               self?.endReceivingMessage()
@@ -226,25 +277,25 @@ This is the most important element in this UIKit. We provide many features in `D
 
   // present action sheet
   private func presentActionSheet() {
-      let actionController = UIAlertController.init(title: "Rich-media message", message: "Choose one", preferredStyle: .ActionSheet)
+      let actionController = UIAlertController.init(title: "Rich-media message", message: "Choose one", preferredStyle: .actionSheet)
 
-      let sendImageAction = UIAlertAction.init(title: "Send image", style: .Default){ [unowned self] action in
-          if UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary){
+      let sendImageAction = UIAlertAction.init(title: "Send image", style: .default){ [unowned self] action in
+          if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
               let picker = UIImagePickerController()
               picker.delegate = self
               picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-              self.presentViewController(picker, animated: true, completion: nil)
+              self.present(picker, animated: true, completion: nil)
           }else{
               print("Read album error!")
           }
       }
 
       actionController.addAction(sendImageAction)
-      actionController.addAction(UIAlertAction.init(title: "Cancel", style: .Cancel) { [unowned self] action in
+      actionController.addAction(UIAlertAction.init(title: "Cancel", style: .cancel) { [unowned self] action in
           self.inputToolbar.contentView?.inputTextView.becomeFirstResponder()
           })
 
-      self.presentViewController(actionController, animated: true, completion: nil)
+      self.present(actionController, animated: true, completion: nil)
   }
   ```
 
@@ -256,15 +307,15 @@ This is the most important element in this UIKit. We provide many features in `D
   }
 
   extension DUMessengerViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-      func imagePickerController(picker: UIImagePickerController,
-                                 didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+      func imagePickerController(_ picker: UIImagePickerController,
+                                 didFinishPickingMediaWithInfo info: [String : Any]) {
           
-          let imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
+          let imageURL = info[UIImagePickerControllerReferenceURL] as! URL
           var meta:[String: AnyObject] = [String:AnyObject]()
           
           if let imageName = imageURL.getAssetFullFileName() {
               print("choose image name: \(imageName)")
-              meta["name"] = imageName
+              meta["name"] = imageName as AnyObject
           }
 
           let image = info[UIImagePickerControllerOriginalImage] as! UIImage
@@ -295,16 +346,16 @@ This is the most important element in this UIKit. We provide many features in `D
 
 * You can also add other actions as you want, such as "send file" or "send video".
 
-* Next, we will push to chat setting scene by clicking the right bar button on navigation bar. Therefore, we need create last new ViewController in storyboard and a subclass of UIViewController, `DUChatSettingViewController`. (Also a push segue named **toSettingSegue**)
+* Next, we will push to chat setting scene by clicking the right bar button on navigation bar. Therefore, we need create last new ViewController in storyboard and a subclass of UIViewController, `DUMessengerSettingViewController`. (Also a push segue named **toSettingSegue**)
   ![storyboard](http://i.imgur.com/VTZUkXL.png)
 
   ```swift
-  override func didClickRightBarButton(sender: UIBarButtonItem?) {
+  override func didClick(rightBarButton: UIBarButtonItem?) {
       self.performSegueWithIdentifier("toSettingSegue", sender: nil)
   }
 
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-      if let vc = segue.destinationViewController as? DUChatSettingViewController {
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+      if let vc = segue.destinationViewController as? DUMessengerSettingViewController {
           vc.chatDataForSetting = self.chat
       }
   }

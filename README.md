@@ -105,14 +105,14 @@ Otherwise, please follow the following tutorial to create your own instant messa
 
 * Drag and drop a Navigation Controller in `Main.storyboard` and set it as Storyboard Entry Point![storyboard example](http://i.imgur.com/F7aFNau.png)
 
-* Create a new subclass of UITableViewController, `DUChatListViewController` and make it conform to **DUChatListProtocolForViewController**
+* Create a new subclass of UITableViewController, `DMChatListViewController` and make it conform to **DUChatListProtocolForViewController**
 
   ```swift
   import UIKit
   import DUMessagingUIKit
   import DUMessaging
 
-  class DUChatListViewController: UITableViewController, DUChatListProtocolForViewController {
+  class DMChatListViewController: UITableViewController, DUChatListProtocolForViewController {
   }
   ```
 
@@ -159,14 +159,14 @@ Otherwise, please follow the following tutorial to create your own instant messa
 * Click build & run in Xcode, you should see some results similiar to the following (as long as you already have at least one chat room)
   ![chat list](http://i.imgur.com/Cgqujgf.png)
 
-* We'd like to get in one chat room by clicking on it, so we will need anohter viewController for messages. Create another subclass of UIViewController, `DUMessengerViewController`, and drage a new ViewController in your `Main.storyboard`. Then drag a segue between `DUChatListViewController` and `DUMessengerViewController` with identifier **toMessengerSegue** in storyboard.
+* We'd like to get in one chat room by clicking on it, so we will need anohter viewController for messages. Create another subclass of UIViewController, `DUMessengerViewController`, and drage a new ViewController in your `Main.storyboard`. Then drag a segue between `DUChatListViewController` and `DMMessagesViewController` with identifier **toMessengerSegue** in storyboard.
 
   ```swift
   import UIKit
   import DUMessagingUIKit
   import DUMessaging
 
-  class DUMessengerViewController: DUMessagesViewController {}
+  class DMMessagesViewController: DUMessagesViewController {}
   ```
 
   ![storyboard](http://i.imgur.com/YiGXJbb.png)
@@ -302,11 +302,11 @@ This is the most important element in this UIKit. We provide many features in `D
 * To make UIImagePicker run correctly, we still have to implement its delegate.
 
   ```swift
-  class DUMessengerViewController: DUMessagesViewController {
+  class DMMessagesViewController: DUMessagesViewController {
   	// ...
   }
 
-  extension DUMessengerViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+  extension DMMessagesViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
       func imagePickerController(_ picker: UIImagePickerController,
                                  didFinishPickingMediaWithInfo info: [String : Any]) {
           
@@ -346,7 +346,7 @@ This is the most important element in this UIKit. We provide many features in `D
 
 * You can also add other actions as you want, such as "send file" or "send video".
 
-* Next, we will push to chat setting scene by clicking the right bar button on navigation bar. Therefore, we need create last new ViewController in storyboard and a subclass of UIViewController, `DUMessengerSettingViewController`. (Also a push segue named **toSettingSegue**)
+* Next, we will push to chat setting scene by clicking the right bar button on navigation bar. Therefore, we need create last new ViewController in storyboard and a subclass of UIViewController, `DMSettingViewController`. (Also a push segue named **toSettingSegue**)
   ![storyboard](http://i.imgur.com/VTZUkXL.png)
 
   ```swift
@@ -355,7 +355,7 @@ This is the most important element in this UIKit. We provide many features in `D
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-      if let vc = segue.destinationViewController as? DUMessengerSettingViewController {
+      if let vc = segue.destinationViewController as? DMSettingViewController {
           vc.chatDataForSetting = self.chat
       }
   }

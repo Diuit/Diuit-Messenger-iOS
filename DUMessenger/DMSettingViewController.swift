@@ -9,6 +9,6 @@
 import UIKit
 import DUMessagingUIKit
 
-class DUMessengerSettingViewController: DUChatSettingViewController {
+class DMSettingViewController: DUChatSettingViewController {
 
 }

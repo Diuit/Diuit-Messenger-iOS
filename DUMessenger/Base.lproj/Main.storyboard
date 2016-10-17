@@ -9,7 +9,7 @@
         <!--Root View Controller-->
         <scene sceneID="TBt-wx-e5F">
             <objects>
-                <tableViewController id="dM2-VF-CYe" customClass="DUChatListViewController" customModule="DUMessenger" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="dM2-VF-CYe" customClass="DMChatListViewController" customModule="DUMessenger" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="p0l-yE-gXk">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -28,10 +28,10 @@
             </objects>
             <point key="canvasLocation" x="-189" y="153"/>
         </scene>
-        <!--Messenger View Controller-->
+        <!--Messages View Controller-->
         <scene sceneID="ihH-6V-Nkl">
             <objects>
-                <viewController id="jFN-dv-6iD" customClass="DUMessengerViewController" customModule="DUMessenger" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="jFN-dv-6iD" customClass="DMMessagesViewController" customModule="DUMessenger" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="GyZ-mJ-EKc"/>
                         <viewControllerLayoutGuide type="bottom" id="cAH-Bc-6MH"/>
@@ -49,10 +49,10 @@
             </objects>
             <point key="canvasLocation" x="601" y="153"/>
         </scene>
-        <!--Messenger Setting View Controller-->
+        <!--Setting View Controller-->
         <scene sceneID="JH5-6c-scN">
             <objects>
-                <viewController id="IYT-3N-iGC" customClass="DUMessengerSettingViewController" customModule="DUMessenger" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="IYT-3N-iGC" customClass="DMSettingViewController" customModule="DUMessenger" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="EiM-xe-Jg4"/>
                         <viewControllerLayoutGuide type="bottom" id="Kzx-kf-Zzz"/>

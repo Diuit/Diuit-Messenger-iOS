@@ -10,7 +10,7 @@ import UIKit
 import DUMessagingUIKit
 import DUMessaging
 
-class DUChatListViewController: UITableViewController, DUChatListProtocolForViewController {
+class DMChatListViewController: UITableViewController, DUChatListProtocolForViewController {
 
     // MARK: Properties and methods required to be implemented
     var chatData: [DUChatData] = []
@@ -57,7 +57,7 @@ class DUChatListViewController: UITableViewController, DUChatListProtocolForView
     
     // You need to set a chat room data source for `DUMessengerViewController`
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let vc = segue.destination as? DUMessengerViewController {
+        if let vc = segue.destination as? DMMessagesViewController {
             vc.chat = selectedChat
         }
     }

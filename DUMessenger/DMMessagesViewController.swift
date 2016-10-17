@@ -10,7 +10,7 @@ import UIKit
 import DUMessaging
 import DUMessagingUIKit
 
-class DUMessengerViewController: DUMessagesViewController {
+class DMMessagesViewController: DUMessagesViewController {
     
     // MARK: Mehtods required to be overriden
     
@@ -67,7 +67,7 @@ class DUMessengerViewController: DUMessagesViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let vc = segue.destination as? DUMessengerSettingViewController {
+        if let vc = segue.destination as? DMSettingViewController {
             vc.chatDataForSetting = self.chat
         }
     }
@@ -76,7 +76,7 @@ class DUMessengerViewController: DUMessagesViewController {
 
 // MARK: UIImagePickerControllerDelegate
 
-extension DUMessengerViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension DMMessagesViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [String : Any]) {
         
@@ -106,7 +106,7 @@ extension DUMessengerViewController: UIImagePickerControllerDelegate, UINavigati
 
 // MARK: private methods
 
-private extension DUMessengerViewController {
+private extension DMMessagesViewController {
     // present action sheet
     func presentActionSheet() {
         let actionController = UIAlertController.init(title: "Media message", message: "Choose one to demo", preferredStyle: .actionSheet)

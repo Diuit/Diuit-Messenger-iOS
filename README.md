@@ -67,7 +67,7 @@ Otherwise, please follow the following tutorial to create your own instant messa
 
   target 'DUMessenger' do
     swift3_overrides
-    pod 'DUMessagingUIKit', :git => 'https://github.com/Diuit/DUMessagingUIKit-iOS', :tag => '0.2.0''
+    pod 'DUMessagingUIKit', :git => 'https://github.com/Diuit/DUMessagingUIKit-iOS', :tag => '0.2.0'
   end
 
   # Use Swift 3 in all pod targets
